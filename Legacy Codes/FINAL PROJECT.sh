@@ -1,224 +1,302 @@
 clear
-i=0
-declare -a nama
-declare -a kode
-declare -a lahir
-declare -a mati
-declare -a agama
+z=0
+menu=0
 
-cetak()
-{
-	echo -e "Data yang telah dimasukkan : \n"			
-		for (( q=0; q<i;q++  ))
-		do
-			echo -e "Data ke $[q+1]\nNama Mayat            : ${nama[q]}\nNomor Kematian        : ${kode[q]}\nTempat, tanggal lahir : ${lahir[q]}\nTempat, tanggal wafat : ${mati[q]}\nAgama                 : ${agama[q]}\n"
-		done
+input(){
+	  
+	    let z=$z+1
+	    echo "	**Price List Paket Belajar BimBel Pasti Juara**	"
+	    echo "==================================================================="
+	    echo "===Paket UNAS SD			  ==			==="
+	    echo "===1.Paket Cerdas Cermat(Seminggu 2x)	  ==	Rp 100000	==="
+	    echo "===2.Paket Pasti Juara(Seminggu 3x)	  ==	Rp 140000	==="
+	    echo "===Paket UNAS SMP			  ==			==="
+	    echo "===1.Paket Top Cer(Seminggu 3x)		  ==	Rp 120000	==="
+	    echo "===2.Paket Best Of The Best(Seminggu 4x)  ==	Rp 150000	==="
+	    echo "===Paket UNAS SMA			  ==			==="
+	    echo "===1.Paket Pasti Lulus(Seminggu 3x)	  ==	Rp 130000	==="
+	    echo "===2.Paket Lancar UNAS(Seminggu 4x)	  ==	Rp 165000	==="
+	    echo "===Paket SBMPTN/Kedinasan		  ==			==="
+	    echo "===1.Paket SBMPTN(Sebulan 20x)		  ==	Rp 500000	==="
+	    echo "===2.Paket Kedinasan(Sebulan 20x)  	  ==	Rp 550000	==="
+	    echo "===Paket TOEFL				  ==			==="
+	    echo "===1.TOEFL >500				  ==	Rp 1000000	==="
+	    echo "==================================================================="
+	    echo -n "Masukkan Tanggal Pendaftaran		: "
+            read tanggal[$z]
+	    echo -n "Masukkan Nama Wali Murid		: "
+            read wali[$z]
+            echo -n "Masukkan Nama Tentor			: "
+            read tentor[$z]
+            echo -n "Masukkan No Reg				: "
+            read noreg[$z]
+            echo -n "Masukkan Nama Anak Didik		: "
+            read nama[$z]
+            echo -n "Masukkan Jangka Waktu Bimbel(Bulan)	: "
+            read waktu[$z]
+	    echo -n "Masukkan Nama Paket			: "
+            read paket[$z]
+	    echo -n "Masukkan Harga				: "
+            read harga[$z]
+           
 }
 
-while :;
-do
-	echo -e "Sistem Informasi Data Mayat pada Tempat Pemakaman Umum\n\n1. Masukkan data mayat\n2. Lihat data mayat\n3. Cari data mayat\n4. Perbarui data mayat\n5. Hapus data mayat\n6. Keluar program\n"
- 	echo -n "Masukkan pilihan : "
- 	read pilih
 
- 	if (("$pilih" == 1));   # INPUT DATA
- 	then 
-  		clear
- 	 	echo -n "Nama Mayat            : "
- 	 	read nama[$i]
- 	 	echo -n "Nomor Kematian        : "
-  		read kode[$i]
-	  	echo -n "Tempat, tanggal lahir : "
-  		read lahir[$i]
-		echo -n "Tempat, tanggal wafat : "
-  		read mati[$i]
-	  	echo -n "Agama                 : "
-  		read agama[$i]
- 	 	i=`expr $i + 1`
-		
-		if (("$i" >= 2))
-		then
-			for (( g=0; g<i-1; g++ ))
+informasianakdidik(){
+	    echo "==========================================================="
+	    echo "#    	  **Daftar Anak Didik Bimbel Pasti Juara**  	    #"
+	    echo "==========================================================="
+		for((a=1;a<=z;a++))
 			do
-	   			if (( "${kode[$i-1]}" == "${kode[g]}" ))
+				echo "- - -Anak Didik $a- - -"
+				echo "Tanggal Pendaftaran	: ${tanggal[$a]}"
+				echo "Nama Wali Murid		: ${wali[$a]}"
+				echo "Nama Tentor		: ${tentor[$a]}"
+				echo "No Reg			: ${noreg[$a]}"
+				echo "Nama Anak Didik		: ${nama[$a]}"
+				echo "Jangka Waktu Bimbel	: ${waktu[$a]}"
+				echo "Nama Paket		: ${paket[$a]}"
+		done
+
+}
+
+totalbimbel(){
+	    echo "==========================================================="
+	    echo "#		**Total Pembayaran Paket Belajar**	    #"
+	    echo "==========================================================="
+		for((a=1;a<=z;a++))
+                	do
+				echo "- - -Pelanggan $a- - -"
+				echo "No Reg		: ${noreg[$a]}"
+				echo "Nama Anak Didik	: ${nama[$a]}"
+				echo "Jangka Waktu	: ${waktu[$a]}"
+				echo "Nama Paket	: ${paket[$a]}"
+				echo "Harga		: ${harga[$a]}"
+				echo "*) Diskon 15%"
+				echo "==========================================================="
+				let totalsblmdisc[$z]=${waktu[$z]}*${harga[$z]}
+				echo "===	Total Sebelum Disc		: Rp ${totalsblmdisc[$z]}	==="
+				let totalstlhdisc[$z]=${totalsblmdisc[$z]}*15/100
+				let totalsemua[$z]=${totalsblmdisc[$z]}-${totalstlhdisc[$z]}
+				echo "===	Total Yang Harus Anda Bayar 	: Rp ${totalsemua[$z]}	==="
+				echo "==========================================================="
+				done
+}
+
+search(){
+	    echo -n "Masukkan No Reg     : "
+            read cari
+            a=0
+            b=0
+            while [ $a -le $z ] && [ $b == 0 ]
+		do
+                        let a=$a+1
+                        if [ "${noreg[a]}" == $cari ]
+                        then
+				b=1
+                        fi
+            done
+}
+
+updatedata(){
+	    search
+	    if [ $a -le $z ]
+            	then
+                        echo "- - -Data Anak Didik $a- - -"
+			echo "Tanggal Pendaftaran	: ${tanggal[$a]}"
+                        echo "Nama Wali Murid		: ${wali[$a]}"
+                        echo "Nama Tentor		: ${tentor[$a]}"
+                        echo "No Reg			: ${noreg[$a]}"
+                        echo "Nama Anak Didik		: ${nama[$a]}"
+                        echo "Jangka Waktu		: ${waktu[$a]}"
+                        echo "Nama Paket		: ${paket[$a]}"
+			echo "Harga			: ${harga[$a]}"
+                        echo "- - --- - -"
+			echo -n "Masukkan Tanggal Pendaftaran	: "
+            		read tanggal[$z]
+	    		echo -n "Masukkan Nama Wali Murid	: "
+            		read wali[$z]
+            		echo -n "Masukkan Nama Tentor		: "
+            		read tentor[$z]
+                        echo -n "Masukkan No Reg			: "
+            		read noreg[$z]
+            		echo -n "Masukkan Nama Anak Didik	: "
+            		read nama[$z]
+            		echo -n "Masukkan Jangka Waktu		: "
+            		read waktu[$z]
+	    		echo -n "Masukkan Nama Paket		: "
+            		read paket[$z]
+	    		echo -n "Masukkan Harga			: "
+            		read harga[$z]
+			echo "==========================================================="
+			let totalsblmdisc[$z]=${waktu[$z]}*${harga[$z]}
+			echo "===	Total Sebelum Disc		: Rp ${totalsblmdisc[$z]}	==="
+			let totalstlhdisc[$z]=${totalsblmdisc[$z]}*15/100
+			let totalsemua[$z]=${totalsblmdisc[$z]}-${totalstlhdisc[$z]}
+			echo "===	Total Yang Harus Anda Bayar 	: Rp ${totalsemua[$z]}	==="
+			echo "==========================================================="
+            else
+                        echo "Data Tidak Ada"
+            fi
+           
+}
+
+delete(){
+	    search
+	    if [ $a -gt $z ]
+            	then
+                        echo "Data Tidak Ada"
+            else
+                        while [ $a -lt $z ]
+                        	do
+                                    let b=$a+1
+				    tanggal[$a]=${tanggal[$b]}
+				    wali[$a]=${wali[$b]}
+				    tentor[$a]=${tentor[$b]}
+                                    noreg[$a]=${noreg[$b]}
+                                    nama[$a]=${nama[$b]}
+				    waktu[$a]=${waktu[$b]}
+                                    paket[$a]=${paket[$b]}
+				    harga[$a]=${harga[$b]}
+                                    totalsblmdisc[$a]=${totalsblmdisc[$b]}
+                                    totalstlhmdisc[$a]=${totalstlhdisc[$b]}
+                                    let a=$a+1
+                        done
+                        let z=$z-1
+                        echo "Data Anak Didik $cari Berhasil Dihapus"
+            fi
+}
+
+cetak(){
+	    search
+            if [ $a -le $z ]
+            	then
+			echo "Tanggal Transaksi	: ${tanggal[$a]}"
+                        echo "Nama Wali Murid		: ${wali[$a]}"
+                        echo "Nama Tentor		: ${tentor[$a]}"
+                        echo "No Reg			: ${noreg[$a]}"
+                        echo "Nama Anak Didik		: ${nama[$a]}"
+                        echo "Jangka Waktu		: ${waktu[$a]}"
+                        echo "Nama Paket		: ${paket[$a]}"
+			echo "Harga			: ${harga[$a]}"
+			echo "==========================================================="
+			let totalsblmdisc[$z]=${waktu[$z]}*${harga[$z]}
+			echo "===	Total Sebelum Disc		: Rp ${totalsblmdisc[$z]}	==="
+			let totalstlhdisc[$z]=${totalsblmdisc[$z]}*15/100
+			let totalsemua[$z]=${totalsblmdisc[$z]}-${totalstlhdisc[$z]}
+			echo "===	Total Yang Harus Anda Bayar 	: Rp ${totalsemua[$z]}	==="
+			echo "==========================================================="
+            else
+                        echo "Data Tidak Ada!!"
+            fi
+}
+
+folder(){
+	echo "Buatlah folder"
+	echo "Masukkan nama folder yang ingin dibuat : "
+	read folder
+	mkdir $folder
+	echo "Folder anda telah berhasil dibuat"
+	ls -l
+}
+
+manipulasi(){
+	echo "Program ini namanya fp.sh"
+	echo "Ketikkan nama program yang ingin kamu ubah"
+	read ubah
+
+	echo "---penjelasan---"
+	echo "*hak akses untuk owner, group, dan other"
+	echo "*r = 4 (read-mengizinkan membaca berkas)"
+	echo "*w = 2 (write0-mengizinkan mengedit berkas)"
+	echo "*x = 1 (excutable-mengizinkan mengeksekusi berkas binary)"
+	echo "masukkan angkanya : "
+	read angka
+
+	echo -e "\nOke anda memilih $ubah"
+	sudo chmod $angka $ubah
+	echo -e "\nManipulasi berkas sudah selesai"
+	ls -l
+	read
+}
+
+clear
+while [ $menu != 9 ]
+do
+	    echo "======================================="
+	    echo "#	**Bimbel Pasti Juara**		#"
+	    echo "======================================="
+	    echo ""
+            echo "1.Input Data Anak Didik"
+            echo "2.Lihat Daftar Anak Didik"
+	    echo "3.Informasi Tagihan"
+            echo "4.Update Data Anak Didik"
+	    echo "5.Search"
+	    echo "6.Delete Data Anak Didik"
+	    echo "7.Buat Folder"
+	    echo "8.Manipulasi Hak Akses Berkas"
+	    echo "9.Exit"
+            echo -n "Masukkan Pilihan Anda : "
+            read menu
+            if [ $menu -eq 1 ]
+            	then
+		clear
+                        input
+		read  
+		clear
+            elif [ $menu -eq 2 ]
+            	then
+		clear
+			if [ $z -lt 1 ]
 				then
-		     			echo -e "\nNomor kematian ini sudah terdaftar!\nMasukan nomor yang lain!"
-					read
-					unset nama[$i-1]
-					unset kode[$i-1]
-					unset lahir[$i-1]
-					unset mati[$i-1]
-					unset agama[$i-1]
-					i=`expr $i - 1`
-					break
-	   			fi
-			done
-		fi
- 	 	clear
- 
- 	elif (("$pilih" == 2));   # TAMPILKAN DATA
- 	then
-  		if (( i == 0 ))
-  		then
-   			clear
-   			echo "Tidak ada data yang dapat ditampilkan"
-   			read
-   			clear
-  		else
-   			clear
-   			cetak
-   			read
-   			clear
-  		fi
-
- 	elif (("$pilih" == 3));   # CARI DATA
- 	then
-  		if (( i == 0))
-  		then
-   			clear
-   			echo "Tidak ada data yang dapat dicari"
-   			read
-   			clear
-  		else  
-   			clear
-      			echo -n "Masukkan nomor kematian yang ingin dicari : "
-      			read cari
-   
-      			k=0
-      			while (($cari != ${kode[$k]}))
-      			do
-    				k=`expr $k + 1`
-      			done
-      
-   			if (($cari == ${kode[$k]}));
-   			then
-    				echo -e "Nama Mayat            : ${nama[k]}\nNomor Kematian        : ${kode[k]}\nTempat, tanggal lahir : ${lahir[k]}\nTempat, tanggal wafat : ${mati[k]}\nAgama                 : ${agama[k]}\n"   
-
-   			else
-    				clear    
-    				echo -e "Data tidak ditemukan"
-   			fi
-   			read
-      			clear
-  		fi
-   
- 	elif (("$pilih" != 4 && "$pilih" != 2 && "$pilih" != 1 && "$pilih" != 3 && "$pilih" != 5 && "$pilih" != 6));   # APABILA MEMBERIKAN MASUKAN SELAIN 1-6
- 	then
-  		echo "Pilihan tidak valid"
-  		read
-  		clear
-
-	elif (( "$pilih" == 5 ));   # HAPUS DATA
-	then
-		if (( i == 0))
-  		then
-   			clear
-   			echo "Tidak ada data yang dapat dihapus"
-   			read
-   			clear
-  		else  
-   			clear
-   			cetak
-			echo -n "Masukkan nomor kematian : "
-      			read cari
-   
-      			k=0
-      			while (($cari != ${kode[$k]}))
-      			do
-    				k=`expr $k + 1`
-      			done
-      
-   			if (($cari == ${kode[$k]}));
-   			then			
-    				unset nama[k]
-				unset kode[k]
-				unset lahir[k]
-				unset mati[k]
-				unset agama[k]
-
-				if [[ -z ${kode[k]} ]]
-				then
-					if (($i == 1))
-					then
-						i=0
-	
-					elif (($i == 2))
-					then
-						for ((f=$k; f<i; f++))
-						do
-							nama[f]=${nama[$f+1]}
-							kode[f]=${kode[$f+1]}
-							lahir[f]=${lahir[$f+1]}
-							mati[f]=${mati[$f+1]}
-							agama[f]=${agama[$f+1]}
-						done
-						i=`expr $i - 1`
-
-					elif (($i > 2))
-					then
-						if [[ -n ${kode[$k-1]} ]]
-						then
-							for (( d=$k; d<i; d++ ))
-							do
-								nama[d]=${nama[$d+1]}
-								kode[d]=${kode[$d+1]}
-								lahir[d]=${lahir[$d+1]}
-								mati[d]=${mati[$d+1]}
-								agama[d]=${agama[$d+1]}
-							done
-						fi
-						i=`expr $i - 1`
-					fi									
-				fi
-   			else
-    				clear    
-    				echo -e "Data tidak ditemukan"
-   			fi
-   			read
-      			clear
-  		fi
-
-	elif (("$pilih" == 4));   # MEMPERBAHARUI DATA
-	then
-		if (( i == 0))
-  		then
-   			clear
-   			echo "Tidak ada data yang dapat diperbarui"
-   			read
-   			clear
-  		else  
-   			clear
-			cetak
-      			echo -e -n "\nMasukkan nomor kematian yang ingin diperbarui : "
-      			read baru
-   
-      			l=0
-      			while (($baru != ${kode[$l]}))
-      			do
-    				l=`expr $l + 1`
-      			done
-      
-   			if (($baru == ${kode[$l]}));
-   			then
-				echo -n "Nama Mayat            : "
-		 	 	read nama[$l]
-			  	echo -n "Tempat, tanggal lahir : "
-		  		read lahir[$l]
-				echo -n "Tempat, tanggal wafat : "
-		  		read mati[$l]
-			  	echo -n "Agama                 : "
-		  		read agama[$l]
-
- 	 			clear
-   			else
-    				clear    
-    				echo -e "Data tidak ditemukan"
-				read
-   			fi
-      			clear
-  		fi
- 
- 	else    # KELUAR PROGAM
-  		exit
- 	fi
+                                    echo "kosong "
+                	else
+                                    informasianakdidik
+                	fi
+		read
+		clear
+	    elif [ $menu -eq 3 ]
+	    	then
+		clear
+			totalbimbel
+		read
+		clear
+            elif [ $menu -eq 4 ]
+            	then
+		clear
+                        updatedata
+		read
+		clear
+            elif [ $menu -eq 5 ]
+            	then
+		clear
+                        cetak
+		read
+		clear
+            elif [ $menu -eq 6 ]
+            	then
+		clear
+                        delete
+		read
+		clear
+            elif [ $menu -eq 7 ]
+            	then
+		clear
+                        folder
+		read
+		clear
+            elif [ $menu -eq 8 ]
+            	then
+		clear
+                        manipulasi
+		read
+		clear
+            elif [ $menu -eq 9 ]
+            	then
+		clear
+                        echo "	**Terimakasih Telah Menggunakan Layanan Kami :)**	"          
+            else
+                        echo "Menu Yang Anda Inputkan Salah!"
+            fi
+            echo ""
 done
